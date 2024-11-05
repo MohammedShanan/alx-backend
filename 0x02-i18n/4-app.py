@@ -29,18 +29,21 @@ def get_locale() -> str:
     """
     Determine the best match with our supported languages
     """
+    locale = request.args.get("locale")
+    if locale and locale in app.config["LANGUAGES"]:
+        return locale
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
 @app.route("/")
 def index() -> str:
     """
-    Render the 3-index.html template with a welcome message
+    Render the 4-index.html template with a welcome message
     """
     home_title = "Welcome to Holberton"
     home_header = "Hello world!"
     return render_template(
-        "3-index.html", home_title=home_title, home_header=home_header
+        "4-index.html", home_title=home_title, home_header=home_header
     )
 
 
