@@ -3,8 +3,8 @@
 Basic Flask app with Babel integration and locale selection
 """
 
-from flask import Flask, render_template, request
-from flask_babel import Babel, _
+from flask import Flask, render_template, request, g
+from flask_babel import Babel
 
 
 class Config:
@@ -23,11 +23,6 @@ app.config.from_object(Config)
 
 
 babel = Babel(app)
-
-
-@app.context_processor
-def inject_translator():
-    return {"_": _}
 
 
 users = {
