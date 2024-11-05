@@ -23,6 +23,32 @@ app.config.from_object(Config)
 
 babel = Babel(app)
 
+users = {
+    1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
+    2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
+    3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
+    4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
+}
+
+
+def get_user():
+    """returns a user dictionary or None if the ID cannot be found
+    or if login_as was not passed"""
+    try:
+        u_id = request.args.get("login_as")
+        return users.get(int(u_id))
+    except Exception:
+        return
+
+
+@app.before_request
+def before_request():
+    """use get_user to find a user if any, and set it as a global on
+    flask.g.user"""
+    user = get_user()
+    if user:
+        g.user = user
+
 
 @babel.localeselector
 def get_locale() -> str:
@@ -38,12 +64,12 @@ def get_locale() -> str:
 @app.route("/")
 def index() -> str:
     """
-    Render the 4-index.html template with a welcome message
+    Render the 5-index.html template with a welcome message
     """
     home_title = "Welcome to Holberton"
     home_header = "Hello world!"
     return render_template(
-        "4-index.html", home_title=home_title, home_header=home_header
+        "5-index.html", home_title=home_title, home_header=home_header
     )
 
 
