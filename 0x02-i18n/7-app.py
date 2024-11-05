@@ -4,7 +4,7 @@ Basic Flask app with Babel integration and locale selection
 """
 
 from flask import Flask, render_template, request, g
-from flask_babel import Babel, _
+from flask_babel import Babel
 from pytz import timezone
 
 
